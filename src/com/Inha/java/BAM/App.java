@@ -252,7 +252,14 @@ public class App {
 
 					if (article.id == id) {
 						foundIndex = i;
-						break;
+						if (article.writer == foundMember.id) {
+							articles.remove(foundIndex);
+							System.out.printf("%d번 게시물이 삭제되었습니다\n", id);
+							break;
+						}
+						if (article.writer != foundMember.id) {
+							System.out.println("삭제할 권한이 없습니다");
+						}
 					}
 				}
 
@@ -260,20 +267,6 @@ public class App {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				}
-				
-				Article article = null;
-				for (int i = 0; i < articles.size(); i++) {
-					article = articles.get(i);
-					if (article.writer == foundMember.id) {
-						articles.remove(foundIndex);
-						System.out.printf("%d번 게시물이 삭제되었습니다\n", id);
-						break;
-					}
-				}
-				if (article.writer != foundMember.id) {
-					System.out.println("삭제할 권한이 없습니다");
-				}
-
 			} else if (command.startsWith("article modify")) {
 				if (command.split(" ").length == 2) {
 					System.out.println("modify 뒤에 번호를 입력해주세요");
@@ -300,47 +293,44 @@ public class App {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				}
-				
-				Article article = null;
-				for (int i = 0; i < articles.size(); i++) {
-					article = articles.get(i);
-					if (article.writer == foundMember.id) {
-						System.out.printf("제목 : %s\n", foundArticle.title);
-						System.out.printf("내용 : %s\n", foundArticle.body);
-						System.out.printf("%d번 게시물의 '제목'과 '내용'중 무엇을 수정하시겠습니까?\n", id);
-						String command_modify = sc.nextLine().trim();
-						
-						if (command_modify.equals("제목")) {
-							System.out.printf("%d번 게시물의 제목을 수정합니다\n", id);
-							System.out.printf("제목 : ");
-							String title = sc.nextLine();
-							
-							foundArticle.title = title;
-							
-							String LastModifyDate = Util.getNowDateTime();
-							
-							foundArticle.LastModifyDate = LastModifyDate;
-							
-							System.out.printf("%d번 게시물의 제목이 수정되었습니다\n", id);
-							
-						} else if (command_modify.equals("내용")) {
-							System.out.printf("%d번 게시물의 내용을 수정합니다\n", id);
-							System.out.printf("내용 : ");
-							String body = sc.nextLine();
-							foundArticle.body = body;
-							
-							String LastModifyDate = Util.getNowDateTime();
-							foundArticle.LastModifyDate = LastModifyDate;
-							
-							System.out.printf("%d번 게시물의 내용이 수정되었습니다\n", id);
-						} else {
-							System.out.println("'제목' 혹은 '내용'을 입력해주세요");
-						}
-						break;
+
+				if (foundArticle.writer == foundMember.id) {
+					System.out.printf("제목 : %s\n", foundArticle.title);
+					System.out.printf("내용 : %s\n", foundArticle.body);
+					System.out.printf("%d번 게시물의 '제목'과 '내용'중 무엇을 수정하시겠습니까?\n", id);
+					String command_modify = sc.nextLine().trim();
+
+					if (command_modify.equals("제목")) {
+						System.out.printf("%d번 게시물의 제목을 수정합니다\n", id);
+						System.out.printf("제목 : ");
+						String title = sc.nextLine();
+
+						foundArticle.title = title;
+
+						String LastModifyDate = Util.getNowDateTime();
+
+						foundArticle.LastModifyDate = LastModifyDate;
+
+						System.out.printf("%d번 게시물의 제목이 수정되었습니다\n", id);
+
+					} else if (command_modify.equals("내용")) {
+						System.out.printf("%d번 게시물의 내용을 수정합니다\n", id);
+						System.out.printf("내용 : ");
+						String body = sc.nextLine();
+						foundArticle.body = body;
+
+						String LastModifyDate = Util.getNowDateTime();
+						foundArticle.LastModifyDate = LastModifyDate;
+
+						System.out.printf("%d번 게시물의 내용이 수정되었습니다\n", id);
+						continue;
+					} else {
+						System.out.println("'제목' 혹은 '내용'을 입력해주세요");
 					}
 				}
-				if (article.writer != foundMember.id) {
+				if (foundArticle.writer != foundMember.id) {
 					System.out.println("편집할 권한이 없습니다");
+					continue;
 				}
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다.");
