@@ -220,8 +220,9 @@ public class App {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				}
-
-				foundArticle.increseViewCount();
+				if (foundMember.id != foundArticle.writer) {
+					foundArticle.increseViewCount();					
+				}
 
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("작성자 : %s\n", foundArticle.writer);
