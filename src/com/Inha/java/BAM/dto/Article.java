@@ -11,11 +11,15 @@ public class Article {
 	public String writer;
 
 	public Article(int id, String regDate, String title, String body) {
+		this(id, regDate, title, body, 0);
+	}
+	
+	public Article(int id, String regDate, String title, String body, int viewcount) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.regDate = regDate;
-		this.viewcount = 0;
+		this.viewcount = viewcount;
 	}
 
 	public void increseViewCount() {
