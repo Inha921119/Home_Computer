@@ -24,13 +24,16 @@ public class MemberController extends Controller {
 		case "logout":
 			doLogout();
 			break;
+		case "profile":
+			showProfile();
+			break;
 		}
 	}
 
 	public MemberController(List<Member> members, Scanner sc) {
 		this.members = members;
 		this.sc = sc;
-		this.lastMemberId = 0;
+		this.lastMemberId = 3;
 	}
 
 	public void doJoin() {
@@ -113,11 +116,11 @@ public class MemberController extends Controller {
 			System.out.printf("비밀번호 : ");
 			String loginPW = sc.nextLine();
 
-			for (int i = 0; i < members.size(); i++) {
-				Member member = members.get(i);
+			for (Member member : members) {
 				if (loginId.equals(member.loginId) && loginPW.equals(member.loginPW)) {
 					foundMember = member;
 					loginCheck = true;
+					foundMember.lastLoginDate = Util.getNowDateTime();
 					System.out.println("로그인 되었습니다");
 					break;
 				}
@@ -140,6 +143,18 @@ public class MemberController extends Controller {
 		System.out.println("로그아웃 되었습니다");
 		return;
 	}
+	
+	public void showProfile() {
+		if (foundMember == null) {
+			System.out.printf("로그인 후 사용가능합니다\n");
+			return;
+		}
+		System.out.printf("아이디 : %s\n", foundMember.loginId);
+		System.out.printf("이름 : %s\n", foundMember.name);
+		System.out.printf("전화번호 : %s\n", foundMember.callNum);
+		System.out.printf("가입날짜 : %s\n", foundMember.regDate.substring(0, 10));
+		System.out.printf("마지막 접속날짜 : %s\n", foundMember.lastLoginDate.substring(0, 10));
+	}
 
 	private boolean loginIdDupChk(String loginId) {
 		for (Member member : members) {
@@ -157,5 +172,11 @@ public class MemberController extends Controller {
 			}
 		}
 		return true;
+	}
+	public void makeTestData() {
+		System.out.println("계정 테스트 데이터를 생성합니다");
+		members.add(new Member(1, Util.getNowDateTime(), "test1", "1111", "테스트1", "01012345678"));
+		members.add(new Member(2, Util.getNowDateTime(), "test2", "2222", "테스트2", "01023456789"));
+		members.add(new Member(3, Util.getNowDateTime(), "test3", "3333", "테스트3", "01034567890"));
 	}
 }

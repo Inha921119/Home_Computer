@@ -31,6 +31,7 @@ public class App {
 		Controller controller;
 
 		articleController.makeTestData();
+		memberController.makeTestData();
 
 		while (true) {
 			System.out.printf("명령어) ");
