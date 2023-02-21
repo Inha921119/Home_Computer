@@ -6,14 +6,14 @@ public class Member {
 	public String loginId;
 	public String loginPW;
 	public String name;
-	public String callnumber;
+	public String callNum;
 
-	public Member(int id, String regDate, String loginId, String loginPW, String name, String callnumber) {
+	public Member(int id, String regDate, String loginId, String loginPW, String name, String callNum) {
 		this.id = id;
 		this.regDate = regDate;
 		this.loginId = loginId;
 		this.loginPW = loginPW;
 		this.name = name;
-		this.callnumber = callnumber;
+		this.callNum = callNum;
 	}
 }
