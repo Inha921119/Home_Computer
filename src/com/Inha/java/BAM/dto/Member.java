@@ -7,7 +7,7 @@ public class Member {
 	public String loginPW;
 	public String name;
 	public String callNum;
-	public String lastLoginDate = null;
+	public String lastLoginDate = "접속기록이 없습니다";
 
 	public Member(int id, String regDate, String loginId, String loginPW, String name, String callNum) {
 		this.id = id;

@@ -57,7 +57,10 @@ public class App {
 			controller = null;
 			
 			if (controllerName.equals("article")) {
-				
+				if (MemberController.foundMember == null) {
+					System.out.printf("로그인 후 사용가능합니다\n");
+					continue;
+				}
 				controller = articleController;
 				
 			} else if (controllerName.equals("member")) {
@@ -77,4 +80,3 @@ public class App {
 		sc.close();
 	}
 }
-//if(foundMember==null){System.out.println("로그인을 해주세요");continue;}

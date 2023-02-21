@@ -25,7 +25,10 @@ public class MemberController extends Controller {
 			doLogout();
 			break;
 		case "profile":
-			showProfile();
+			showProfile(command);
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
 		}
 	}
@@ -107,7 +110,7 @@ public class MemberController extends Controller {
 		System.out.printf("%s님 회원가입이 완료되었습니다.\n", loginId);
 		lastMemberId++;
 	}
-	
+
 	public void doLogin() {
 		if (loginCheck == false) {
 			System.out.printf("아이디 : ");
@@ -136,24 +139,45 @@ public class MemberController extends Controller {
 			return;
 		}
 	}
-	
+
 	public void doLogout() {
+		if (foundMember == null) {
+			System.out.printf("로그인 후 사용가능합니다\n");
+			return;
+		}
 		foundMember = null;
 		loginCheck = false;
 		System.out.println("로그아웃 되었습니다");
 		return;
 	}
-	
-	public void showProfile() {
+
+	public void showProfile(String command) {
 		if (foundMember == null) {
 			System.out.printf("로그인 후 사용가능합니다\n");
 			return;
 		}
-		System.out.printf("아이디 : %s\n", foundMember.loginId);
-		System.out.printf("이름 : %s\n", foundMember.name);
-		System.out.printf("전화번호 : %s\n", foundMember.callNum);
-		System.out.printf("가입날짜 : %s\n", foundMember.regDate.substring(0, 10));
-		System.out.printf("마지막 접속날짜 : %s\n", foundMember.lastLoginDate.substring(0, 10));
+
+		String searchKeyword = command.substring("member profile".length()).trim();
+
+		if (searchKeyword.length() > 0) {
+			for (Member member : members) {
+				if (searchKeyword.equals(member.loginId)) {
+					System.out.printf("%s의 프로필\n", member.loginId);
+					System.out.printf("아이디 : %s\n", member.loginId);
+					System.out.printf("이름 : %s\n", member.name);
+					System.out.printf("전화번호 : %s\n", member.callNum);
+					System.out.printf("가입날짜 : %s\n", member.regDate.substring(0, 10));
+					System.out.printf("마지막 접속날짜 : %s\n", member.lastLoginDate.substring(0, 10));
+				}
+			}
+		} else {
+			System.out.printf("아이디 : %s\n", foundMember.loginId);
+			System.out.printf("이름 : %s\n", foundMember.name);
+			System.out.printf("전화번호 : %s\n", foundMember.callNum);
+			System.out.printf("가입날짜 : %s\n", foundMember.regDate.substring(0, 10));
+			System.out.printf("마지막 접속날짜 : %s\n", foundMember.lastLoginDate.substring(0, 10));
+		}
+
 	}
 
 	private boolean loginIdDupChk(String loginId) {
@@ -173,6 +197,7 @@ public class MemberController extends Controller {
 		}
 		return true;
 	}
+
 	public void makeTestData() {
 		System.out.println("계정 테스트 데이터를 생성합니다");
 		members.add(new Member(1, Util.getNowDateTime(), "test1", "1111", "테스트1", "01012345678"));
