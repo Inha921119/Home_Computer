@@ -1,32 +1,20 @@
 package com.Inha.java.BAM;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
+import com.Inha.java.BAM.Util.Util;
 import com.Inha.java.BAM.controller.ArticleController;
 import com.Inha.java.BAM.controller.Controller;
 import com.Inha.java.BAM.controller.MemberController;
-import com.Inha.java.BAM.dto.Article;
-import com.Inha.java.BAM.dto.Member;
 
 public class App {
-
-	private static List<Article> articles;
-	private static List<Member> members;
-
-	static {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
-	}
-
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
 
 		Scanner sc = new Scanner(System.in);
 
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
 		
 		Controller controller;
 
@@ -41,6 +29,12 @@ public class App {
 				System.out.println("명령어를 입력해 주세요.");
 				continue;
 			}
+			
+			if (command.equals("help")) {
+				Util.CommandHelp();
+				continue;
+			}
+			
 			if (command.equals("exit")) {
 				break;
 			}
@@ -50,6 +44,7 @@ public class App {
 			
 			if(cmdBits.length == 1) {
 				System.out.println("명령어를 확인해주세요");
+				System.out.println("도움이 필요하시면 'help'를 입력하세요");
 				continue;
 			}
 			
@@ -57,7 +52,7 @@ public class App {
 			controller = null;
 			
 			if (controllerName.equals("article")) {
-				if (MemberController.foundMember == null) {
+				if (MemberController.loginedMember == null) {
 					System.out.printf("로그인 후 사용가능합니다\n");
 					continue;
 				}
@@ -70,6 +65,7 @@ public class App {
 			}
 			else {
 				System.out.println("존재하지 않는 명령어 입니다.");
+				System.out.println("도움이 필요하시면 'help'를 입력하세요");
 				continue;
 			}
 			
