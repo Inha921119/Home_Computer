@@ -60,16 +60,14 @@ public class ArticleController extends Controller {
 			System.out.println("게시글이 없습니다");
 			return;
 		}
-		
-		
 
 		System.out.println("|번호	|제목		|날짜		|작성자		|조회수		");
 		Collections.reverse(printArticles);
 
 		for (Article article : printArticles) {
 			
-			List<Member> members = Container.memberService.getWriteMember();
-			
+			String writerName = Container.articleService.getWriteMemberName(article.memberId);
+			String shortTitle = Container.articleService.getShortTitle(article.title);
 			
 			System.out.printf("|%d	|%s		|%s	|%.5s		|%d		\n", article.id, shortTitle,
 					article.regDate.substring(0, 10), writerName, article.viewcount);
@@ -89,7 +87,7 @@ public class ArticleController extends Controller {
 
 		Article article = new Article(id, regDate, loginedMember.id, title, body);
 
-		Container.articleDao.add(article);
+		Container.articleService.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}

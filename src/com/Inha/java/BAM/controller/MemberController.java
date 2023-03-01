@@ -65,7 +65,7 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 아이디 : ");
 			loginId = sc.nextLine().trim();
 
-			if (loginIdDupChk(loginId) == false) {
+			if (Container.memberService.loginIdDupChk(loginId) == false) {
 				System.out.printf("%s은(는) 이미 사용중인 아이디입니다\n", loginId);
 				continue;
 			}
@@ -113,7 +113,7 @@ public class MemberController extends Controller {
 			System.out.printf("전화번호 : ");
 			mobileNum = sc.nextLine().trim();
 
-			if (mobileNumDupChk(mobileNum) == false) {
+			if (Container.memberService.mobileNumDupChk(mobileNum) == false) {
 				System.out.println("중복된 전화번호 입니다");
 				continue;
 			}
@@ -128,7 +128,7 @@ public class MemberController extends Controller {
 		String regDate = Util.getNowDateTime();
 
 		Member member = new Member(id, regDate, loginId, loginPw, name, mobileNum);
-		Container.memberDao.add(member);
+		Container.memberService.add(member);
 
 		System.out.printf("%s님 회원가입이 완료되었습니다.\n", name);
 	}
@@ -326,9 +326,9 @@ public class MemberController extends Controller {
 	private void doFindId() {
 		System.out.println("아이디를 찾습니다. 이름과 전화번호(- 제외)를 입력해주세요");
 		System.out.printf("이름 : ");
-		String NameChk = sc.nextLine().trim();
+//		String NameChk = sc.nextLine().trim();
 		System.out.printf("전화번호 : ");
-		String mobileNumChk = sc.nextLine().trim();
+//		String mobileNumChk = sc.nextLine().trim();
 
 	}
 
@@ -356,24 +356,6 @@ public class MemberController extends Controller {
 			i++;
 		}
 		return -1;
-	}
-
-	private boolean loginIdDupChk(String loginId) {
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean mobileNumDupChk(String mobileNum) {
-		for (Member member : members) {
-			if (member.mobileNum.equals(mobileNum)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	public void makeTestData() {

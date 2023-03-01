@@ -3,7 +3,6 @@ package com.Inha.java.BAM.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.Inha.java.BAM.container.Container;
 import com.Inha.java.BAM.dto.Member;
 
 
@@ -17,15 +16,22 @@ public class MemberDao extends Dao {
 		members.add(member);
 		lastId++;
 	}
-	public List<Member> getWriteMember() {
-		String writerName;
-		
+	
+	public boolean loginIdDupChk(String loginId) {
 		for (Member member : members) {
-			if (Container.articleDao.articles.memberId == member.id) {
-				Container.articleDao.articles.writerName = member.name;
-				return writerName;
+			if (member.loginId.equals(loginId)) {
+				return false;
 			}
 		}
-		return writerName;
+		return true;
+	}
+
+	public boolean mobileNumDupChk(String mobileNum) {
+		for (Member member : members) {
+			if (member.mobileNum.equals(mobileNum)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
